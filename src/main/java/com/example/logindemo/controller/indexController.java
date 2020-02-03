@@ -1,17 +1,16 @@
 package com.example.logindemo.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.logindemo.Util.PhoneCode;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
-import java.util.List;
 import java.util.Map;
+
+import static com.example.logindemo.Util.PhoneCode.getPhonemsg;
 
 @Controller
 @RequestMapping("/front/*")
@@ -35,6 +34,18 @@ public class indexController {
         return "login";
     }
 //    String str = new String(request.getParameter("参数名").getBytes("iso-8859-1"), "utf-8");
+
+//手机登录页面
+    @GetMapping("/sendcode")
+    public String sendcode(){
+        return "sendcode";
+    }
+
+    //验证码页面
+    @GetMapping("/phonelogin")
+    public String phonelogin(){
+        return "phonelogin";
+    }
 
     //注册方法
     @RequestMapping("/addregister")
@@ -68,4 +79,31 @@ public class indexController {
         return "redirect:http://54.223.179.35:9090//front/addlogin?username="+username+"&password="+password;
 
     }
+    @RequestMapping("/sendcode")
+    public String sendcode(HttpServletRequest request,Map<String,Object> map){
+        HttpSession session = request.getSession();
+        String phone = request.getParameter("phonenumber");
+        String code = PhoneCode.vcode();
+        session.setAttribute("code",code);
+        String sms = getPhonemsg(phone,code);
+        if (sms.equals("-1")){
+            map.put("msg","获取验证码失败,请稍后重试！");
+            return "sendcode";
+        }
+        return "phonelogin";
+    }
+
+    @RequestMapping("/addphonelogin")
+    public String addphonelogin(HttpServletRequest request,Map<String,Object> map){
+        String code = request.getParameter("code");
+        String sessCode = (String) request.getSession().getAttribute("code");
+        if (!code.equals(sessCode)){
+            map.put("msg","验证码输入错误！");
+            return "phonelogin";
+        }else {
+            map.put("msg","登陆成功");
+            return "index";
+        }
+    }
+
 }

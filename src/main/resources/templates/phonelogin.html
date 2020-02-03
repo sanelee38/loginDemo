@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh-CN">
+<head>
+    <title>登录</title>
+    <meta name="viewport" http-equiv="Content-Type" content="text/html; charset=UTF-8;width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/zhiyuan.css">
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+    <script src="/js/ie-emulation-modes-warning.js"></script>
+
+</head>
+<body style="background-color: #f5f4f8">
+<div>
+    <div class="container" style="margin-top: 85px">
+        <form action="/front/addphonelogin" name="loginfrom" role="form" method="post" class="form-signin" accept-charset="utf-8">
+            <label class="sr-only">验证码</label>
+            <input type="text" name="code" placeholder="验证码..."  class="form-control"  required>
+            <div style="text-align:center;vertical-align:middle;width: 100%">
+                <button type="submit" class="btn btn-lg btn-primary btn-block">登录</button>
+                <h4 th:text="${msg}"></h4>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="/js/ie10-viewport-bug-workaround.js"></script>
+</body>
+</html>

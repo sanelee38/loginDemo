@@ -30,10 +30,10 @@ public class PhoneCode {
 
     public static void main(String[] args) {
         String phone = "18710731037"; //此处可输入你的手机号码进行测试
-        getPhonemsg(phone,123456);
+        getPhonemsg(phone,"123456");
 
     }
-    public static String getPhonemsg(String mobile,int code) {
+    public static String getPhonemsg(String mobile,String code) {
         System.out.println(mobile);
         if (mobile == null || mobile == "") {
             System.out.println("手机号为空");
@@ -74,6 +74,7 @@ public class PhoneCode {
             } else {//如果验证码出错，会输出错误码告诉你具体原因
                 System.out.println(sendSmsResponse.getCode());
                 System.out.println("获取验证码失败...");
+                return "-1";
             }
         } catch (ServerException e) {
             e.printStackTrace();
@@ -84,6 +85,13 @@ public class PhoneCode {
         }
         return "true";
 
+    }
+    public static String vcode(){
+        String vcode = "";
+        for (int i = 0; i < 6; i++) {
+            vcode = vcode + (int)(Math.random() * 9);
+        }
+        return vcode;
     }
 
     }
